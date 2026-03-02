@@ -6,11 +6,12 @@ import (
     "encoding/base64"
     "net/http"
     "strings"
+    "github.com/timkrans/ws-framework/auth"
 )
 
 const wsGUID = "258EAFA5-E914-47DA-95CA-C5AB0DC85B11"
 
-func HandleWebSocket(hub *RoomHub, w http.ResponseWriter, r *http.Request) {
+func HandleWebSocket(hub *RoomHub, authenticator auth.Authenticator, w http.ResponseWriter, r *http.Request) {
     info, err := authenticator.VerifyRequest(r)
     if err != nil {
         http.Error(w, "Unauthorized", http.StatusUnauthorized)
