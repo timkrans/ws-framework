@@ -1,3 +1,5 @@
+package auth
+
 type DevAuth struct {
     UserID string
 }
