@@ -1,5 +1,9 @@
 package auth
 
+import(
+    "net/http"
+)
+
 type DevAuth struct {
     UserID string
 }
