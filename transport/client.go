@@ -5,6 +5,7 @@ import (
     "encoding/json"
     "net"
     "github.com/timkrans/ws-framework/events"
+    "github.com/timkrans/ws-framework/auth"
 )
 
 type Client struct {
