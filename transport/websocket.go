@@ -24,7 +24,7 @@ func HandleWebSocket(hub *RoomHub, authenticator auth.Authenticator, w http.Resp
     }
     room := hub.GetRoom(roomName)
 
-    allowedRooms, _ := info.Meta["rooms"].([]any)
+    allowedRooms, _ := info.Meta["rooms"].([]string)
     if !roomAllowed(roomName, allowedRooms) {
         http.Error(w, "Forbidden", http.StatusForbidden)
         return
@@ -61,7 +61,7 @@ func HandleWebSocket(hub *RoomHub, authenticator auth.Authenticator, w http.Resp
     client.ReadLoop()
 }
 
-func roomAllowed(room string, allowed []any) bool {
+func roomAllowed(room string, allowed []string) bool {
     for _, r := range allowed {
         if rs, ok := r.(string); ok {
             if rs == "*" || rs == room {
