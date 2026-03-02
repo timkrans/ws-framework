@@ -62,15 +62,14 @@ func HandleWebSocket(hub *RoomHub, authenticator auth.Authenticator, w http.Resp
 }
 
 func roomAllowed(room string, allowed []string) bool {
-    for _, r := range allowed {
-        if rs, ok := r.(string); ok {
-            if rs == "*" || rs == room {
-                return true
-            }
+    for _, rs := range allowed {
+        if rs == "*" || rs == room {
+            return true
         }
     }
     return false
 }
+
 
 func isWebSocketUpgrade(r *http.Request) bool {
     return strings.Contains(strings.ToLower(r.Header.Get("Connection")), "upgrade") &&
