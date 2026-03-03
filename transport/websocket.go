@@ -44,8 +44,13 @@ func HandleWebSocket(hub *RoomHub, authenticator auth.Authenticator, w http.Resp
     resp := "HTTP/1.1 101 Switching Protocols\r\n" +
         "Upgrade: websocket\r\n" +
         "Connection: Upgrade\r\n" +
-        "Sec-WebSocket-Accept: " + accept + "\r\n\r\n"
+        "Sec-WebSocket-Accept: " + accept + "\r\n"
 
+    if proto := r.Header.Get("Sec-WebSocket-Protocol"); proto != "" {
+        resp += "Sec-WebSocket-Protocol: " + proto + "\r\n"
+    }
+
+    resp += "\r\n"
     conn.Write([]byte(resp))
 
     client := &Client{
@@ -54,7 +59,8 @@ func HandleWebSocket(hub *RoomHub, authenticator auth.Authenticator, w http.Resp
         Send:   make(chan []byte, 256),
         Room:   room,
         UserID: info.UserID,
-        Auth: info, 
+        Auth:   info,
+        Source: authenticator,
     }
 
     room.Register <- client
@@ -71,7 +77,6 @@ func roomAllowed(room string, allowed []string) bool {
     }
     return false
 }
-
 
 func isWebSocketUpgrade(r *http.Request) bool {
     return strings.Contains(strings.ToLower(r.Header.Get("Connection")), "upgrade") &&

@@ -15,6 +15,7 @@ type Client struct {
     Room    *Room
     UserID  string
     Auth    *auth.AuthResult
+    Source auth.Authenticator
 }
 
 func (c *Client) ReadLoop() {

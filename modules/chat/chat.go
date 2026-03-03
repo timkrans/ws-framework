@@ -29,8 +29,7 @@ type ChatHandler struct{}
 func (h ChatHandler) Handle(c interface{}, evt events.Event) {
     client := c.(*transport.Client)
 
-    switch client.Auth.(type) {
-    //add more that reque
+    switch client.Source.(type) {
     case *auth.RemoteAuth:
         if evt.User != client.UserID {
             return
