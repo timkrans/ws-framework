@@ -53,6 +53,8 @@ func HandleWebSocket(hub *RoomHub, authenticator auth.Authenticator, w http.Resp
         Reader: bufio.NewReader(conn),
         Send:   make(chan []byte, 256),
         Room:   room,
+        UserID: info.UserID,
+        Auth: info, 
     }
 
     room.Register <- client
