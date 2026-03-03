@@ -41,12 +41,6 @@ func (h ChatHandler) Handle(c interface{}, evt events.Event) {
     var in IncomingChat
     json.Unmarshal(evt.Data, &in)
 
-    if evt.Type == "chat.typing" {
-        out, _ := json.Marshal(evt)
-        client.Room.Broadcast <- out
-        return
-    }
-
     msg := Message{
         Room:      evt.Room,
         User:      evt.User,
@@ -70,5 +64,4 @@ func (h ChatHandler) Handle(c interface{}, evt events.Event) {
 func Init(cfg ChatPersistenceConfig) {
     Config = cfg
     events.Register("chat.message", ChatHandler{})
-    events.Register("chat.typing", ChatHandler{})
 }
