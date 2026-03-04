@@ -10,6 +10,7 @@ import (
     "github.com/timkrans/ws-framework/modules/files"
     "github.com/timkrans/ws-framework/modules/notify"
     "github.com/timkrans/ws-framework/modules/admin"
+    "github.com/timkrans/ws-framework/modules/reactions"
     "github.com/timkrans/ws-framework/transport"
 )
 
@@ -38,6 +39,10 @@ type ServerConfig struct {
 
     EnableAdmin bool
     Admin       AdminConfig
+
+    EnableReactions bool
+    Reactions       reactions.Config
+
 
 }
 
@@ -103,6 +108,13 @@ func NewServer(cfg ServerConfig) *Server {
             AllowReactivate: cfg.Admin.AllowReactivate,
         })
     }
+
+    if cfg.EnableReactions {
+        reactions.Init(reactions.Config{
+            AllowReactions: cfg.Reactions.AllowReactions,
+        })
+    }
+
 
     authenticator := cfg.Authenticator
     if authenticator == nil {
