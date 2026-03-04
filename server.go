@@ -41,7 +41,7 @@ type ServerConfig struct {
     Admin       AdminConfig
 
     EnableReactions bool
-    Reactions       reactions.Config
+    Reactions       ReactionsConfig
 
 
 }
@@ -54,6 +54,7 @@ type ChatPersistenceConfig struct {
 type PresenceConfig struct {
     BroadcastJoinLeave bool
     BroadcastTyping    bool
+    BroadcastStatus    bool
 }
 
 type FilesConfig struct {
@@ -68,6 +69,10 @@ type AdminConfig struct {
     AllowRemoveUser bool 
     AllowOffboard bool 
     AllowReactivate bool 
+}
+
+type ReactionsConfig struct  {
+    AllowReactions bool
 }
 
 func NewServer(cfg ServerConfig) *Server {
