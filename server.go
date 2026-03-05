@@ -43,8 +43,8 @@ type ServerConfig struct {
     EnableReactions bool
     Reactions       ReactionsConfig
 
-
 }
+
 
 type ChatPersistenceConfig struct {
     Mode    string
@@ -76,6 +76,7 @@ type ReactionsConfig struct  {
 }
 
 func NewServer(cfg ServerConfig) *Server {
+    hub := transport.NewRoomHub()
     if cfg.EnableChat {
         chat.Init(chat.ChatPersistenceConfig{
             Mode:    cfg.ChatPersistence.Mode,
@@ -120,14 +121,13 @@ func NewServer(cfg ServerConfig) *Server {
         })
     }
 
-
     authenticator := cfg.Authenticator
     if authenticator == nil {
         authenticator = &auth.NoAuth{}
     }
 
     return &Server{
-        Hub:    transport.NewRoomHub(),
+        Hub:    hub,
         Auth:   authenticator,
         Config: cfg,
     }
